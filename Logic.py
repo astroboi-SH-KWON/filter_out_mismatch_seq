@@ -28,3 +28,37 @@ class Logics:
         alignments_result = pairwise2.format_alignment(*alignments[0])
         align_arr = alignments_result.split("\n")
         return align_arr[0], align_arr[1], align_arr[2], alignments_result
+
+    def exist_exact_seq(self, needle_result):
+        needles = needle_result.strip()
+        if " " in needles:
+            return False
+        elif "." in needles:
+            return False
+        return True
+
+    def count_hyphen_bfore_strt(self, seq_w_needle, idx):
+        if seq_w_needle[idx] == "-":
+            return self.count_hyphen_bfore_strt(seq_w_needle, idx + 1)
+        else:
+            return idx
+
+    def count_hyphen_aftr_end(self, seq_w_needle, idx):
+        if seq_w_needle[idx] == "-":
+            return self.count_hyphen_aftr_end(seq_w_needle, idx - 1)
+        else:
+            return idx + 1
+
+    def count_hyphen_bfore_strt_aftr_end(self, seq_w_needle):
+        return self.count_hyphen_bfore_strt(seq_w_needle, 0), self.count_hyphen_aftr_end(seq_w_needle, -1)
+
+    def get_strt_end_idx(self, full_seq, trgt_seq):
+        start_idx = full_seq.find(trgt_seq)
+        return start_idx, start_idx + len(trgt_seq)
+
+    def get_target_seq(self, full_seq, trgt_idx, len_trgt, flag=True):
+        if flag:
+            return full_seq[trgt_idx - len_trgt: trgt_idx]
+        else:
+            return full_seq[trgt_idx: trgt_idx + len_trgt]
+
