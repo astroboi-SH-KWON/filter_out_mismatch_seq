@@ -59,6 +59,8 @@ class Utils:
         data_list = []
         err_list = []
         for tuple_val in pool_list:
+            print("str(len(tuple_val[0])) : ", str(len(tuple_val[0])))
+            print("str(len(tuple_val[1])) : ", str(len(tuple_val[1])))
             data_list.extend(tuple_val[0])
             err_list.extend(tuple_val[1])
         return data_list, err_list

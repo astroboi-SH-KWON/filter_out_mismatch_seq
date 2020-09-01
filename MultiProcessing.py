@@ -17,6 +17,7 @@ D0_Lib_10fg = [1, 4]
 D4_Gen_10ng = [2, 3, 5, 6, 7, 8]
 D0_D4_FLAG_ARR = [True, False]
 FASTQ_ARR = [D0_Lib_10fg, D4_Gen_10ng]
+FASTQ_N = ['D0_Lib_10fg', 'D4_Gen_10ng']
 FASTQ_EXT = ".extendedFrags.fastq"
 
 SCAFFOLD_SEQ = "GTTTCAGAGCTATGCTGGAAACAGCATAGCAAGTTGAAATAAGGCTAGTCCGTTATCAACTTGAAAAAGTGGCACCGAGTCGGTGCTTTTTT"
@@ -66,8 +67,6 @@ def multi_processing():
         pool = mp.Pool(processes=MULTI_CNT)
 
         pool_list = pool.map(logic.multi_filter_out_mismatch_seq, splited_fastq_list)
-        print("str(len(pool_list)) : ", str(len(pool_list)))
-        print("type(pool_list[0]) : ", type(pool_list[0]))
 
         data_list, err_list = util.merge_multi_list(pool_list)
         print("str(len(data_list)) : ", str(len(data_list)))
@@ -76,9 +75,9 @@ def multi_processing():
         err_head = ['error_code', 'expected_index', 'index_from_NGS', 'guide_NGS', 'scaf_NGS', 'umi', 'barcode_3bp',
                     'target_NGS', 'full_NGS']
         result_head = err_head[1:]
-        util.make_excel(WORK_DIR + "output/result_" + str(d0_d4_idx), result_head, data_list, 1)
+        util.make_excel(WORK_DIR + "output/result_" + FASTQ_N[d0_d4_idx], result_head, data_list, 1)
 
-        util.make_excel(WORK_DIR + "output/err_" + str(d0_d4_idx), err_head, data_list)
+        util.make_excel(WORK_DIR + "output/err_" + FASTQ_N[d0_d4_idx], err_head, err_list)
         pool.close()
 
 

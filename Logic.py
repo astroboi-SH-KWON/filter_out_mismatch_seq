@@ -155,6 +155,7 @@ class Logics:
                     err_list.append(
                         ["no_brcd", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_3bp_seq, trgt_seq,
                          ori_ngs_read])
+                    print("no_brcd : ", str(err))
             else:
                 try:
                     brcd_3bp_idx = self.barcd_3bp_list.index(brcd_3bp_seq)
@@ -166,5 +167,6 @@ class Logics:
                     err_list.append(
                         ["wrong_scaffold", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_3bp_seq, trgt_seq,
                          ori_ngs_read])
+                    print("wrong_scaffold : ", str(err))
 
         return data_list, err_list
