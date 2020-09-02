@@ -1,4 +1,7 @@
 import time
+import os
+import multiprocessing as mp
+import numpy as np
 
 import Util
 import Logic
@@ -10,9 +13,11 @@ PROJECT_NAME = WORK_DIR.split("/")[-2]
 FASTQ = "FASTQ/200302_PCR switching_hi-seq/"
 INPUT = "input/"
 GUIDE_BARCODE_CSV = "190509_FINAL.CSV"
-D0_Lib_10fg = [1, 4]
-D0_FLAG = True
-D4_Gen_10ng = [2, 3, 5, 6, 7, 8]
+D0_Lib_10fg = [4]
+D4_Gen_10ng = [3]
+D0_D4_FLAG_ARR = [True, False]
+FASTQ_ARR = [D0_Lib_10fg, D4_Gen_10ng]
+FASTQ_N = ['D0_Lib_10fg', 'D4_Gen_10ng']
 FASTQ_EXT = ".extendedFrags.fastq"
 
 SCAFFOLD_SEQ = "GTTTCAGAGCTATGCTGGAAACAGCATAGCAAGTTGAAATAAGGCTAGTCCGTTATCAACTTGAAAAAGTGGCACCGAGTCGGTGCTTTTTT"
@@ -28,21 +33,35 @@ LEN_BRCD = 15
 LEN_RAND_BP = 3
 LEN_RAND_WIN = 3
 LEN_TRGT = 24
+
+INIT = [SCAFFOLD_SEQ, FRONT_SCAF, FRONT_SCAF_WIN, FRONT_SCAF_POS, REAR_SCAF_WIN, LEN_GUIDE, LEN_UMI, TTTG, LEN_BRCD, LEN_RAND_BP, LEN_RAND_WIN, LEN_TRGT]
+
+TOTAL_CPU = mp.cpu_count()
+MULTI_CNT = int(TOTAL_CPU*0.8)
 ############### end setting env #################
 
 
 def main():
     util = Util.Utils()
     logic_prep = LogicPrep.LogicPreps()
-    csv_list = util.read_csv_ignore_N_line(WORK_DIR + INPUT + GUIDE_BARCODE_CSV)
-    guide_list = logic_prep.make_1_arr_list_to_list(2, csv_list)
-    barcd_list = logic_prep.make_2_arr_list_to_list(6, 7, csv_list)
-    trgt_list = logic_prep.make_1_arr_list_to_list(8, csv_list)
-    d0_seq_wo_scaf_list = logic_prep.make_3_arr_list_to_list(3, 4, 5, csv_list)
 
-    fastq_list = util.read_fastq_to_list(WORK_DIR + FASTQ + "1" + FASTQ_EXT)
-    # for tmp_i in range(20):
-    #     print(fastq_list[tmp_i])
+    excel_arr = []
+    csv_list = util.read_csv_ignore_N_line(WORK_DIR + INPUT + GUIDE_BARCODE_CSV)
+    excel_arr.append(csv_list)
+    excel_arr.append(logic_prep.make_1_arr_list_to_list(0, csv_list))
+    excel_arr.append(logic_prep.make_1_arr_list_to_list(2, csv_list))
+    excel_arr.append(logic_prep.make_2_arr_list_to_list(6, 7, csv_list))
+    excel_arr.append(logic_prep.make_1_arr_list_to_list(8, csv_list))
+    excel_arr.append(logic_prep.make_3_arr_list_to_list(3, 4, 5, csv_list))
+
+    for d0_d4_idx in range(len(D0_D4_FLAG_ARR)):
+        logic = Logic.Logics(INIT, excel_arr, D0_D4_FLAG_ARR[d0_d4_idx])
+
+        fastq_list = []
+        for fn_nm in FASTQ_ARR[d0_d4_idx]:
+            fastq_list += util.read_fastq_to_list(WORK_DIR + FASTQ + str(fn_nm) + FASTQ_EXT)
+
+        logic.multi_filter_out_mismatch_seq_wo_3bp_seq_in_brcd(fastq_list)
 
 
 
@@ -124,7 +143,7 @@ def test():
                 # check guide
                 if guide_seq == guide_list[brcd_3bp_idx]:
                     # Day 0 ==> check trgt_seq
-                    if D0_FLAG:
+                    if D0_D4_FLAG_ARR[0]:
                         if trgt_seq == trgt_list[brcd_3bp_idx]:
                             data_list.append(["", index_list[brcd_3bp_idx], '', guide_seq, real_scaf_ngs, umi_seq, brcd_3bp_seq, trgt_seq, ori_ngs_read])
                         else:
@@ -153,9 +172,12 @@ def test():
     for tmp_arr in err_list:
         print(tmp_arr)
 
+def test2():
+    ori_ngs_read = "ACTATATATCTTGTGGAAAGGACGAAACACCGTAAGAGAAGCACTGTCACAGTTTCAGAGCTATGCTGGAACGCATAGCAATGAATAAGGCTAGTCCGTTTCACTTGAAAAAGTGGCACCGAGTCGGTGCTTTTTTGGGTTATATTTGCGTACTCACATCATCCACCAGAATAAGAGAAGCACTGTCACAGGACAAAGCTTGGCGTAACTAGATCTCTACTCTACCACTTGTACTTCAGCGGTCAGCTTACTCGACTTAAT"
+    real_scaf_ngs = "GTTTCAGAGCTATGCTGGAACGCATAGCAATGAATAAGGCTAGTCCGTTTCACTTGAAAAAGTGGCACCGAGTCGGTGCTTTTTT"
 
 if __name__ == '__main__':
     start_time = time.perf_counter()
     print("start [ " + PROJECT_NAME + " ]>>>>>>>>>>>>>>>>>>")
-    test()
+    main()
     print("::::::::::: %.2f seconds ::::::::::::::" % (time.perf_counter() - start_time))

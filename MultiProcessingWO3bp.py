@@ -7,14 +7,14 @@ import Util
 import Logic
 import LogicPrep
 ############### start to set env ################
-# WORK_DIR = "D:/000_WORK/KimNahye/20200827/WORK_DIR/"
-WORK_DIR = os.getcwd() + "/"
+WORK_DIR = "D:/000_WORK/KimNahye/20200827/WORK_DIR/"
+# WORK_DIR = os.getcwd() + "/"
 PROJECT_NAME = WORK_DIR.split("/")[-2]
 FASTQ = "FASTQ/200302_PCR switching_hi-seq/"
 INPUT = "input/"
 GUIDE_BARCODE_CSV = "190509_FINAL.CSV"
-D0_Lib_10fg = [1, 4]
-D4_Gen_10ng = [2, 3, 5, 6, 7, 8]
+D0_Lib_10fg = [4]
+D4_Gen_10ng = [3]
 D0_D4_FLAG_ARR = [True, False]
 FASTQ_ARR = [D0_Lib_10fg, D4_Gen_10ng]
 FASTQ_N = ['D0_Lib_10fg', 'D4_Gen_10ng']
@@ -40,7 +40,7 @@ TOTAL_CPU = mp.cpu_count()
 MULTI_CNT = int(TOTAL_CPU*0.8)
 ############### end setting env #################
 
-def multi_processing():
+def multi_processing_wo_3bp_in_brcd():
     util = Util.Utils()
     logic_prep = LogicPrep.LogicPreps()
 
@@ -49,7 +49,7 @@ def multi_processing():
     excel_arr.append(csv_list)
     excel_arr.append(logic_prep.make_1_arr_list_to_list(0, csv_list))
     excel_arr.append(logic_prep.make_1_arr_list_to_list(2, csv_list))
-    excel_arr.append(logic_prep.make_2_arr_list_to_list(6, 7, csv_list))
+    excel_arr.append(logic_prep.make_1_arr_list_to_list(6, csv_list))
     excel_arr.append(logic_prep.make_1_arr_list_to_list(8, csv_list))
     excel_arr.append(logic_prep.make_3_arr_list_to_list(3, 4, 5, csv_list))
 
@@ -65,7 +65,7 @@ def multi_processing():
             print("will use : " + str(MULTI_CNT))
             pool = mp.Pool(processes=MULTI_CNT)
 
-            pool_list = pool.map(logic.multi_filter_out_mismatch_seq_with_brcd_3bp_seq, splited_fastq_list)
+            pool_list = pool.map(logic.multi_filter_out_mismatch_seq_wo_3bp_seq_in_brcd, splited_fastq_list)
 
             data_list, err_list = util.merge_multi_list(pool_list)
 
@@ -78,14 +78,8 @@ def multi_processing():
             pool.close()
 
 
-
-
-
-
-
-
 if __name__ == '__main__':
     start_time = time.perf_counter()
     print("start [ " + PROJECT_NAME + " ]>>>>>>>>>>>>>>>>>>")
-    multi_processing()
+    multi_processing_wo_3bp_in_brcd()
     print("::::::::::: %.2f seconds ::::::::::::::" % (time.perf_counter() - start_time))

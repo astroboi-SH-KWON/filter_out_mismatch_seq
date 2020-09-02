@@ -17,6 +17,12 @@ class LogicPreps:
 
     def get_real_scaf_seq(self, ngs_read_needle, strt_idx, end_idx):
         if end_idx == 0:
-            return ngs_read_needle[strt_idx:].replace("-", "")
+            return ngs_read_needle[strt_idx:].replace("-", "").strip()
         else:
-            return ngs_read_needle[strt_idx: end_idx].replace("-", "")
+            return ngs_read_needle[strt_idx: end_idx].replace("-", "").strip()
+
+    def sort_list_by_ele(self, data_list, ele_idx, up_down_flag=True):
+        result_list = []
+        for tmp_arr in sorted(data_list, key=lambda tmp_arr: tmp_arr[ele_idx], reverse=up_down_flag):
+            result_list.append(tmp_arr)
+        return result_list

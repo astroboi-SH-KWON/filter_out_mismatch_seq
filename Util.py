@@ -1,6 +1,7 @@
 import glob
 from Bio import SeqIO
 import openpyxl
+import os
 
 import Logic
 
@@ -47,7 +48,7 @@ class Utils:
         sheet = workbook.active
 
         row = 1
-        self.make_row(sheet, row, header)
+        self.make_row(sheet, row, header[strt_idx:])
 
         for data_arr in data_list:
             row += 1
@@ -59,8 +60,23 @@ class Utils:
         data_list = []
         err_list = []
         for tuple_val in pool_list:
-            print("str(len(tuple_val[0])) : ", str(len(tuple_val[0])))
-            print("str(len(tuple_val[1])) : ", str(len(tuple_val[1])))
             data_list.extend(tuple_val[0])
             err_list.extend(tuple_val[1])
         return data_list, err_list
+
+    def make_tsv(self, path, header, data_list, strt_idx=0, deli='\t'):
+        try:
+            os.remove(path + self.ext_txt)
+        except Exception as err:
+            print("os.remove(path + self.ext_txt) : ", str(err))
+        with open(path + self.ext_txt, 'a') as f:
+            tmp_head = ''
+            for head in header[strt_idx:]:
+                tmp_head += (head + deli)
+            f.write(tmp_head[:-1] + "\n")
+
+            for data_arr in data_list:
+                tmp_row = ''
+                for row_val in data_arr[strt_idx:]:
+                    tmp_row += (row_val + deli)
+                f.write(tmp_row[:-1] + "\n")
