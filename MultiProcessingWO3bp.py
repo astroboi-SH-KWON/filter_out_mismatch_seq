@@ -7,14 +7,14 @@ import Util
 import Logic
 import LogicPrep
 ############### start to set env ################
-WORK_DIR = "D:/000_WORK/KimNahye/20200827/WORK_DIR/"
-# WORK_DIR = os.getcwd() + "/"
+# WORK_DIR = "D:/000_WORK/KimNahye/20200827/WORK_DIR/"
+WORK_DIR = os.getcwd() + "/"
 PROJECT_NAME = WORK_DIR.split("/")[-2]
 FASTQ = "FASTQ/200302_PCR switching_hi-seq/"
 INPUT = "input/"
 GUIDE_BARCODE_CSV = "190509_FINAL.CSV"
-D0_Lib_10fg = [4]
-D4_Gen_10ng = [3]
+D0_Lib_10fg = [1, 4]
+D4_Gen_10ng = [2, 3, 5, 6, 7, 8]
 D0_D4_FLAG_ARR = [True, False]
 FASTQ_ARR = [D0_Lib_10fg, D4_Gen_10ng]
 FASTQ_N = ['D0_Lib_10fg', 'D4_Gen_10ng']
@@ -71,10 +71,10 @@ def multi_processing_wo_3bp_in_brcd():
 
             head = ['error_code', 'expected_index', 'index_from_NGS', 'guide_NGS', 'scaf_NGS', 'umi', 'barcode_3bp',
                     'target_NGS', 'full_NGS']
-            util.make_excel(WORK_DIR + "output/" + str(fn_nm) + "_result_" + FASTQ_N[d0_d4_idx], head, data_list, 2)
+            util.make_excel(WORK_DIR + "output/wo3bp/" + str(fn_nm) + "_result_wo3bp_" + FASTQ_N[d0_d4_idx], head, data_list, 2)
 
             sorted_err_list = logic_prep.sort_list_by_ele(err_list, 0)
-            util.make_tsv(WORK_DIR + "output/" + str(fn_nm) + "_err_" + FASTQ_N[d0_d4_idx], head, sorted_err_list)
+            util.make_tsv(WORK_DIR + "output/wo3bp/" + str(fn_nm) + "_err_wo3bp_" + FASTQ_N[d0_d4_idx], head, sorted_err_list)
             pool.close()
 
 
