@@ -25,6 +25,7 @@ class Logics:
         self.barcd_3bp_list = excel_arr[3]
         self.trgt_list = excel_arr[4]
         self.d0_seq_wo_scaf_list = excel_arr[5]
+        self.barcd_list = excel_arr[6]
 
     """
     by using the BLOSUM62 matrix, together with a gap open penalty of 10 and a gap extension penalty of 0.5 (using globalds)
@@ -115,8 +116,8 @@ class Logics:
                 est_umi_seq_needle, umi_TTTG_needle_result, TTTG_needle, alignments_umi_TTTG = self.get_pairwise2_localds_result(
                     umi_TTTG_brcd_seq, self.TTTG)
             except Exception as err:
-                err_list.append(
-                    ["no_TTTG", 'no_TTTG', '', guide_seq, real_scaf_ngs, "", "", "", ori_ngs_read, umi_TTTG_brcd_seq])
+                err_list.append(["no_TTTG", 'no_TTTG', '', guide_seq, real_scaf_ngs, umi_TTTG_brcd_seq, "", "", "", "",
+                                 ori_ngs_read])
                 continue
 
             strt_TTTG_idx, end_TTTG_idx = self.get_strt_end_idx(umi_TTTG_brcd_seq,
@@ -124,6 +125,7 @@ class Logics:
             umi_seq = umi_TTTG_brcd_seq[:strt_TTTG_idx]
             seq_sftr_TTTG = umi_TTTG_brcd_seq[end_TTTG_idx:]
             brcd_seq = seq_sftr_TTTG[:self.LEN_BRCD]
+            rand_3bp_seq = seq_sftr_TTTG[self.LEN_BRCD:self.LEN_BRCD + self.LEN_RAND_BP]
 
             umi_TTTG_brcd_3bp_trgt_seq = self.get_target_seq(ori_ngs_read, end_scaf_idx, self.LEN_UMI + len(
                 self.TTTG) + self.LEN_BRCD + self.LEN_RAND_BP + self.LEN_RAND_WIN + self.LEN_TRGT, False)
@@ -133,49 +135,53 @@ class Logics:
             if self.SCAFFOLD_SEQ == real_scaf_ngs:
                 try:
                     # check exist of barcode
-                    brcd_idx = self.barcd_3bp_list.index(brcd_seq)
+                    brcd_idx = self.barcd_list.index(brcd_seq)
                     # check guide
                     if guide_seq == self.guide_list[brcd_idx]:
                         # Day 0 ==> check trgt_seq
                         if self.D0_D4_FLAG:
                             if trgt_seq == self.trgt_list[brcd_idx]:
                                 data_list.append(
-                                    ["", '', self.index_list[brcd_idx], guide_seq, real_scaf_ngs, umi_seq, brcd_seq,
-                                     trgt_seq, ori_ngs_read])
+                                    ['', '', self.index_list[brcd_idx], guide_seq, real_scaf_ngs, umi_seq, brcd_seq,
+                                     rand_3bp_seq, self.barcd_3bp_list[brcd_idx][-3:], trgt_seq, ori_ngs_read])
                             else:
                                 err_list.append(
                                     ["wrong_trgt", self.index_list[brcd_idx], '', guide_seq, real_scaf_ngs, umi_seq,
-                                     brcd_seq, trgt_seq, ori_ngs_read])
+                                     brcd_seq, rand_3bp_seq, self.barcd_3bp_list[brcd_idx][-3:], trgt_seq,
+                                     ori_ngs_read])
 
                         # not Day 0
                         else:
                             data_list.append(
-                                ["", '', self.index_list[brcd_idx], guide_seq, real_scaf_ngs, umi_seq, brcd_seq,
-                                 trgt_seq, ori_ngs_read])
+                                ['', '', self.index_list[brcd_idx], guide_seq, real_scaf_ngs, umi_seq, brcd_seq,
+                                 rand_3bp_seq, self.barcd_3bp_list[brcd_idx][-3:], trgt_seq, ori_ngs_read])
                     else:
                         try:
                             guide_idx = self.guide_list.index(guide_seq)
-                            err_list.append(["wrong_guide", self.index_list[brcd_idx], self.index_list[guide_idx], guide_seq,
-                                             real_scaf_ngs, umi_seq, brcd_seq, trgt_seq, ori_ngs_read])
+                            err_list.append(
+                                ["wrong_guide", self.index_list[brcd_idx], self.index_list[guide_idx], guide_seq,
+                                 real_scaf_ngs, umi_seq, brcd_seq, rand_3bp_seq, self.barcd_3bp_list[brcd_idx][-3:],
+                                 trgt_seq, ori_ngs_read])
                         except Exception as err:
                             err_list.append(
                                 ["no_matched_guide", self.index_list[brcd_idx], '', guide_seq, real_scaf_ngs, umi_seq,
-                                 brcd_seq, trgt_seq, ori_ngs_read])
+                                 brcd_seq, rand_3bp_seq, self.barcd_3bp_list[brcd_idx][-3:], trgt_seq, ori_ngs_read])
                 except Exception as err:
                     err_list.append(
-                        ["no_brcd", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_seq, trgt_seq,
-                         ori_ngs_read])
+                        ["no_brcd", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_seq, rand_3bp_seq, '',
+                         trgt_seq, ori_ngs_read])
             else:
                 try:
-                    brcd_idx = self.barcd_3bp_list.index(brcd_seq)
-                    err_list.append(["wrong_scaffold", self.index_list[brcd_idx], '', guide_seq, real_scaf_ngs, umi_seq,
-                                     brcd_seq, trgt_seq, ori_ngs_read])
+                    brcd_idx = self.barcd_list.index(brcd_seq)
+                    err_list.append(
+                        ["wrong_scaffold", self.index_list[brcd_idx], '', guide_seq, real_scaf_ngs, umi_seq, brcd_seq,
+                         rand_3bp_seq, self.barcd_3bp_list[brcd_idx][-3:], trgt_seq, ori_ngs_read])
                 except Exception as err:
                     if real_scaf_ngs in self.d0_seq_wo_scaf_list:
                         print(real_scaf_ngs, "::::::::::::::::::::::::::::::::::::::")
                     err_list.append(
-                        ["wrong_scaffold", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_seq, trgt_seq,
-                         ori_ngs_read])
+                        ["wrong_scaffold", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_seq, rand_3bp_seq, '',
+                         trgt_seq, ori_ngs_read])
 
         return data_list, err_list
 
@@ -183,7 +189,12 @@ class Logics:
         print("multi_filter_out_mismatch_seq_with_brcd_3bp_seq >>>>>>>>>>>>>>>>>>>>>>")
         logic_prep = LogicPrep.LogicPreps()
         data_list = []
-        err_list = []
+        no_TTTG_err_list = []
+        wrong_trgt_err_list = []
+        wrong_guide_err_list = []
+        no_matched_guide_err_list = []
+        no_brcd_err_list = []
+        wrong_scaffold_err_list = []
         for idx in range(len(fastq_list)):
             ori_ngs_read = fastq_list[idx]
 
@@ -207,9 +218,8 @@ class Logics:
                 est_umi_seq_needle, umi_TTTG_needle_result, TTTG_needle, alignments_umi_TTTG = self.get_pairwise2_localds_result(
                     umi_TTTG_brcd_3bp_seq, self.TTTG)
             except Exception as err:
-                err_list.append(
-                    ["no_TTTG", 'no_TTTG', '', guide_seq, real_scaf_ngs, "", "", "", ori_ngs_read,
-                     umi_TTTG_brcd_3bp_seq])
+                no_TTTG_err_list.append(
+                    ["no_TTTG", 'no_TTTG', '', guide_seq, real_scaf_ngs, umi_TTTG_brcd_3bp_seq, "", "", "", ori_ngs_read])
                 continue
 
             strt_TTTG_idx, end_TTTG_idx = self.get_strt_end_idx(umi_TTTG_brcd_3bp_seq,
@@ -233,45 +243,42 @@ class Logics:
                         if self.D0_D4_FLAG:
                             if trgt_seq == self.trgt_list[brcd_3bp_idx]:
                                 data_list.append(
-                                    ["", '', self.index_list[brcd_3bp_idx], guide_seq, real_scaf_ngs, umi_seq,
-                                     brcd_3bp_seq,
-                                     trgt_seq, ori_ngs_read])
+                                    ['', '', self.index_list[brcd_3bp_idx], guide_seq, real_scaf_ngs, umi_seq,
+                                     brcd_3bp_seq[:-3], brcd_3bp_seq[-3:], trgt_seq, ori_ngs_read])
                             else:
-                                err_list.append(
+                                wrong_trgt_err_list.append(
                                     ["wrong_trgt", self.index_list[brcd_3bp_idx], '', guide_seq, real_scaf_ngs, umi_seq,
-                                     brcd_3bp_seq, trgt_seq, ori_ngs_read])
+                                     brcd_3bp_seq[:-3], brcd_3bp_seq[-3:], trgt_seq, ori_ngs_read])
 
                         # not Day 0
                         else:
-                            data_list.append(
-                                ["", '', self.index_list[brcd_3bp_idx], guide_seq, real_scaf_ngs, umi_seq, brcd_3bp_seq,
-                                 trgt_seq, ori_ngs_read])
+                            data_list.append(['', '', self.index_list[brcd_3bp_idx], guide_seq, real_scaf_ngs, umi_seq,
+                                              brcd_3bp_seq[:-3], brcd_3bp_seq[-3:], trgt_seq, ori_ngs_read])
                     else:
                         try:
                             guide_idx = self.guide_list.index(guide_seq)
-                            err_list.append(
+                            wrong_guide_err_list.append(
                                 ["wrong_guide", self.index_list[brcd_3bp_idx], self.index_list[guide_idx], guide_seq,
-                                 real_scaf_ngs, umi_seq, brcd_3bp_seq, trgt_seq, ori_ngs_read])
+                                 real_scaf_ngs, umi_seq, brcd_3bp_seq[:-3], brcd_3bp_seq[-3:], trgt_seq, ori_ngs_read])
                         except Exception as err:
-                            err_list.append(
+                            no_matched_guide_err_list.append(
                                 ["no_matched_guide", self.index_list[brcd_3bp_idx], '', guide_seq, real_scaf_ngs,
-                                 umi_seq,
-                                 brcd_3bp_seq, trgt_seq, ori_ngs_read])
+                                 umi_seq, brcd_3bp_seq[:-3], brcd_3bp_seq[-3:], trgt_seq, ori_ngs_read])
                 except Exception as err:
-                    err_list.append(
-                        ["no_brcd", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_3bp_seq, trgt_seq,
-                         ori_ngs_read])
+                    no_brcd_err_list.append(["no_brcd", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_3bp_seq[:-3],
+                                     brcd_3bp_seq[-3:], trgt_seq, ori_ngs_read])
             else:
                 try:
                     brcd_3bp_idx = self.barcd_3bp_list.index(brcd_3bp_seq)
-                    err_list.append(
+                    wrong_scaffold_err_list.append(
                         ["wrong_scaffold", self.index_list[brcd_3bp_idx], '', guide_seq, real_scaf_ngs, umi_seq,
-                         brcd_3bp_seq, trgt_seq, ori_ngs_read])
+                         brcd_3bp_seq[:-3], brcd_3bp_seq[-3:], trgt_seq, ori_ngs_read])
                 except Exception as err:
                     if real_scaf_ngs in self.d0_seq_wo_scaf_list:
                         print(real_scaf_ngs, "::::::::::::::::::::::::::::::::::::::")
-                    err_list.append(
-                        ["wrong_scaffold", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_3bp_seq, trgt_seq,
-                         ori_ngs_read])
+                    wrong_scaffold_err_list.append(
+                        ["wrong_scaffold", 'no_brcd', '', guide_seq, real_scaf_ngs, umi_seq, brcd_3bp_seq[:-3],
+                         brcd_3bp_seq[-3:], trgt_seq, ori_ngs_read])
 
-        return data_list, err_list
+        return data_list, [no_TTTG_err_list, wrong_trgt_err_list, wrong_guide_err_list, no_matched_guide_err_list,
+                           no_brcd_err_list, wrong_scaffold_err_list]

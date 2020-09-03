@@ -3,8 +3,6 @@ from Bio import SeqIO
 import openpyxl
 import os
 
-import Logic
-
 class Utils:
     def __init__(self):
         self.ext_txt = ".txt"
@@ -80,3 +78,17 @@ class Utils:
                 for row_val in data_arr[strt_idx:]:
                     tmp_row += (row_val + deli)
                 f.write(tmp_row[:-1] + "\n")
+
+    def merge_multi_err_list(self, pool_list):
+        data_list = []
+        err_list = []
+
+        # make init of err_list by the size of pool_list[0][1]
+        for err_idx in range(len(pool_list[0][1])):
+            err_list.append([])
+
+        for tuple_val in pool_list:
+            data_list.extend(tuple_val[0])
+            for err_idx in range(len(tuple_val[1])):
+                err_list[err_idx].extend(tuple_val[1][err_idx])
+        return data_list, err_list

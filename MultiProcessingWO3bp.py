@@ -49,9 +49,10 @@ def multi_processing_wo_3bp_in_brcd():
     excel_arr.append(csv_list)
     excel_arr.append(logic_prep.make_1_arr_list_to_list(0, csv_list))
     excel_arr.append(logic_prep.make_1_arr_list_to_list(2, csv_list))
-    excel_arr.append(logic_prep.make_1_arr_list_to_list(6, csv_list))
+    excel_arr.append(logic_prep.make_2_arr_list_to_list(6, 7, csv_list))
     excel_arr.append(logic_prep.make_1_arr_list_to_list(8, csv_list))
     excel_arr.append(logic_prep.make_3_arr_list_to_list(3, 4, 5, csv_list))
+    excel_arr.append(logic_prep.make_1_arr_list_to_list(6, csv_list))
 
     for d0_d4_idx in range(len(D0_D4_FLAG_ARR)):
         logic = Logic.Logics(INIT, excel_arr, D0_D4_FLAG_ARR[d0_d4_idx])
@@ -68,9 +69,10 @@ def multi_processing_wo_3bp_in_brcd():
             pool_list = pool.map(logic.multi_filter_out_mismatch_seq_wo_3bp_seq_in_brcd, splited_fastq_list)
 
             data_list, err_list = util.merge_multi_list(pool_list)
+            pool.close()
 
-            head = ['error_code', 'expected_index', 'index_from_NGS', 'guide_NGS', 'scaf_NGS', 'umi', 'barcode_3bp',
-                    'target_NGS', 'full_NGS']
+            head = ['error_code', 'expected_index', 'index_from_NGS', 'guide_NGS', 'scaf_NGS', 'umi', 'barcode',
+                    'rand_3bp_ngs', 'rand_3bp_frm_index', 'target_NGS', 'full_NGS']
             util.make_excel(WORK_DIR + "output/wo3bp/" + str(fn_nm) + "_result_wo3bp_" + FASTQ_N[d0_d4_idx], head, data_list, 2)
 
             sorted_err_list = logic_prep.sort_list_by_ele(err_list, 0)

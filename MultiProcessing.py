@@ -52,6 +52,7 @@ def multi_processing():
     excel_arr.append(logic_prep.make_2_arr_list_to_list(6, 7, csv_list))
     excel_arr.append(logic_prep.make_1_arr_list_to_list(8, csv_list))
     excel_arr.append(logic_prep.make_3_arr_list_to_list(3, 4, 5, csv_list))
+    excel_arr.append(logic_prep.make_1_arr_list_to_list(6, csv_list))
 
     for d0_d4_idx in range(len(D0_D4_FLAG_ARR)):
         logic = Logic.Logics(INIT, excel_arr, D0_D4_FLAG_ARR[d0_d4_idx])
@@ -67,19 +68,25 @@ def multi_processing():
 
             pool_list = pool.map(logic.multi_filter_out_mismatch_seq_with_brcd_3bp_seq, splited_fastq_list)
 
-            data_list, err_list = util.merge_multi_list(pool_list)
-
-            head = ['error_code', 'expected_index', 'index_from_NGS', 'guide_NGS', 'scaf_NGS', 'umi', 'barcode_3bp',
-                    'target_NGS', 'full_NGS']
-            util.make_excel(WORK_DIR + "output/" + str(fn_nm) + "_result_" + FASTQ_N[d0_d4_idx], head, data_list, 2)
-
-            sorted_err_list = logic_prep.sort_list_by_ele(err_list, 0)
-            util.make_tsv(WORK_DIR + "output/" + str(fn_nm) + "_err_" + FASTQ_N[d0_d4_idx], head, sorted_err_list)
+            data_list, err_list = util.merge_multi_err_list(pool_list)
             pool.close()
 
+            head = ['error_code', 'expected_index', 'index_from_NGS', 'guide_NGS', 'scaf_NGS', 'umi', 'barcode',
+                    'rand_3bp', 'target_NGS', 'full_NGS']
+            util.make_excel(WORK_DIR + "output/" + str(fn_nm) + "_result_" + FASTQ_N[d0_d4_idx], head, data_list, 2)
 
+            for err_arr in err_list:
+                if len(err_arr) == 0:
+                    continue
 
-
+                try:
+                    util.make_excel(
+                        WORK_DIR + "output/" + str(fn_nm) + "_" + err_arr[0][0] + "_err_" + FASTQ_N[d0_d4_idx], head,
+                        err_arr)
+                except Exception as err:
+                    util.make_tsv(
+                        WORK_DIR + "output/" + str(fn_nm) + "_" + err_arr[0][0] + "_err_" + FASTQ_N[d0_d4_idx], head,
+                        err_arr)
 
 
 
