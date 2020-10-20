@@ -63,11 +63,7 @@ class Utils:
         return data_list, err_list
 
     def make_tsv(self, path, header, data_list, strt_idx=0, deli='\t'):
-        try:
-            os.remove(path + self.ext_txt)
-        except Exception as err:
-            print("os.remove(path + self.ext_txt) : ", str(err))
-        with open(path + self.ext_txt, 'a') as f:
+        with open(path + self.ext_txt, 'w') as f:
             tmp_head = ''
             for head in header[strt_idx:]:
                 tmp_head += (head + deli)

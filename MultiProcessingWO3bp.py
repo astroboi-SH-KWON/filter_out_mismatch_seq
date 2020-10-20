@@ -40,7 +40,7 @@ TOTAL_CPU = mp.cpu_count()
 MULTI_CNT = int(TOTAL_CPU*0.8)
 ############### end setting env #################
 
-def multi_processing_wo_3bp_in_brcd():
+def multi_processing_wo_randbp_in_brcd():
     util = Util.Utils()
     logic_prep = LogicPrep.LogicPreps()
 
@@ -66,7 +66,7 @@ def multi_processing_wo_3bp_in_brcd():
             print("will use : " + str(MULTI_CNT))
             pool = mp.Pool(processes=MULTI_CNT)
 
-            pool_list = pool.map(logic.multi_filter_out_mismatch_seq_wo_3bp_seq_in_brcd, splited_fastq_list)
+            pool_list = pool.map(logic.multi_filter_out_mismatch_seq_with_brcd_rand_seq, splited_fastq_list)
 
             data_list, err_list = util.merge_multi_list(pool_list)
             pool.close()
@@ -83,5 +83,5 @@ def multi_processing_wo_3bp_in_brcd():
 if __name__ == '__main__':
     start_time = time.perf_counter()
     print("start [ " + PROJECT_NAME + " ]>>>>>>>>>>>>>>>>>>")
-    multi_processing_wo_3bp_in_brcd()
+    multi_processing_wo_randbp_in_brcd()
     print("::::::::::: %.2f seconds ::::::::::::::" % (time.perf_counter() - start_time))

@@ -10,14 +10,22 @@ import LogicPrep
 # WORK_DIR = "D:/000_WORK/KimNahye/20200827/WORK_DIR/"
 WORK_DIR = os.getcwd() + "/"
 PROJECT_NAME = WORK_DIR.split("/")[-2]
-FASTQ = "FASTQ/200302_PCR switching_hi-seq/"
+FASTQ = "FASTQ/20201019/"
+# FASTQ = "FASTQ/200302_PCR switching_hi-seq/"
 INPUT = "input/"
-GUIDE_BARCODE_CSV = "190509_FINAL.CSV"
-D0_Lib_10fg = [1, 4]
-D4_Gen_10ng = [2, 3, 5, 6, 7, 8]
-D0_D4_FLAG_ARR = [True, False]
-FASTQ_ARR = [D0_Lib_10fg, D4_Gen_10ng]
-FASTQ_N = ['D0_Lib_10fg', 'D4_Gen_10ng']
+# GUIDE_BARCODE_CSV = "190509_FINAL.CSV"
+GUIDE_BARCODE_CSV = "1st_LibraryA.CSV"
+
+LibA_D0 = ['LibA_D0']
+WT = ['WT']
+# D0_Lib_10fg = [1, 4]
+# D4_Gen_10ng = [2, 3, 5, 6, 7, 8]
+D0_D4_FLAG_ARR = [True, False]  # Day 0 : True, non Day 0 : False
+# D0_D4_FLAG_ARR = [True, False]
+FASTQ_ARR = [LibA_D0, WT]
+# FASTQ_ARR = [D0_Lib_10fg, D4_Gen_10ng]
+FASTQ_N = ['LibA_D0', 'WT']
+# FASTQ_N = ['D0_Lib_10fg', 'D4_Gen_10ng']
 FASTQ_EXT = ".extendedFrags.fastq"
 
 SCAFFOLD_SEQ = "GTTTCAGAGCTATGCTGGAAACAGCATAGCAAGTTGAAATAAGGCTAGTCCGTTATCAACTTGAAAAAGTGGCACCGAGTCGGTGCTTTTTT"
@@ -30,7 +38,8 @@ LEN_GUIDE = 19
 LEN_UMI = 8
 TTTG = "TTTG"
 LEN_BRCD = 15
-LEN_RAND_BP = 3
+# LEN_RAND_BP = 3
+LEN_RAND_BP = 9
 LEN_RAND_WIN = 3
 LEN_TRGT = 24
 
@@ -45,7 +54,8 @@ def multi_processing():
     logic_prep = LogicPrep.LogicPreps()
 
     excel_arr = []
-    csv_list = util.read_csv_ignore_N_line(WORK_DIR + INPUT + GUIDE_BARCODE_CSV)
+    csv_list = [[x.upper() for x in tmp_arr] for tmp_arr in
+                util.read_csv_ignore_N_line(WORK_DIR + INPUT + GUIDE_BARCODE_CSV)]
     excel_arr.append(csv_list)
     excel_arr.append(logic_prep.make_1_arr_list_to_list(0, csv_list))
     excel_arr.append(logic_prep.make_1_arr_list_to_list(2, csv_list))
@@ -66,13 +76,14 @@ def multi_processing():
             print("will use : " + str(MULTI_CNT))
             pool = mp.Pool(processes=MULTI_CNT)
 
-            pool_list = pool.map(logic.multi_filter_out_mismatch_seq_with_brcd_3bp_seq, splited_fastq_list)
+            # pool_list = pool.map(logic.multi_filter_out_mismatch_seq_with_brcd_rand_seq, splited_fastq_list)
+            pool_list = pool.map(logic.multi_filter_out_mismatch_seq_by_scaffold_existence, splited_fastq_list)
 
             data_list, err_list = util.merge_multi_err_list(pool_list)
             pool.close()
 
             head = ['error_code', 'expected_index', 'index_from_NGS', 'guide_NGS', 'scaf_NGS', 'umi', 'barcode',
-                    'rand_3bp', 'target_NGS', 'full_NGS']
+                    'rand_' + str(LEN_RAND_BP) + 'bp', 'target_NGS', 'full_NGS']
             util.make_excel(WORK_DIR + "output/" + str(fn_nm) + "_result_" + FASTQ_N[d0_d4_idx], head, data_list, 2)
 
             for err_arr in err_list:

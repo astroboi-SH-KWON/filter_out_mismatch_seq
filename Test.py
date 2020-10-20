@@ -61,7 +61,7 @@ def main():
         for fn_nm in FASTQ_ARR[d0_d4_idx]:
             fastq_list += util.read_fastq_to_list(WORK_DIR + FASTQ + str(fn_nm) + FASTQ_EXT)
 
-        logic.multi_filter_out_mismatch_seq_wo_3bp_seq_in_brcd(fastq_list)
+        logic.multi_filter_out_mismatch_seq_wo_rand_seq_in_brcd(fastq_list)
 
 
 
