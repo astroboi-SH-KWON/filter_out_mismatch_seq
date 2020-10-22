@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="2204112b-aab7-4faf-8329-c34435cd452c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="2204112b-aab7-4faf-8329-c34435cd452c" name="Default Changelist" comment="rand N bp">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Logic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LogicPrep.py" beforeDir="false" afterPath="$PROJECT_DIR$/LogicPrep.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MultiProcessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/MultiProcessing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiProcessingWO3bp.py" beforeDir="false" afterPath="$PROJECT_DIR$/MultiProcessingWO3bp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Util.py" beforeDir="false" afterPath="$PROJECT_DIR$/Util.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,28 +79,60 @@
       <option name="presentableId" value="Default" />
       <updated>1603073447690</updated>
     </task>
+    <task id="LOCAL-00001" summary="rand N bp">
+      <created>1603168247418</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1603168247419</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="rand N bp" />
+    <option name="LAST_COMMIT_MESSAGE" value="rand N bp" />
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1058" height="562" key="GridCell.Tab.0.bottom" timestamp="1603165669645">
-      <screen x="1920" y="-155" width="1080" height="1890" />
-    </state>
-    <state width="1058" height="562" key="GridCell.Tab.0.bottom/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603165669645" />
-    <state width="1058" height="562" key="GridCell.Tab.0.center" timestamp="1603165669645">
-      <screen x="1920" y="-155" width="1080" height="1890" />
-    </state>
-    <state width="1058" height="562" key="GridCell.Tab.0.center/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603165669645" />
-    <state width="1058" height="562" key="GridCell.Tab.0.left" timestamp="1603165669645">
-      <screen x="1920" y="-155" width="1080" height="1890" />
-    </state>
-    <state width="1058" height="562" key="GridCell.Tab.0.left/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603165669645" />
-    <state width="1058" height="562" key="GridCell.Tab.0.right" timestamp="1603165669645">
-      <screen x="1920" y="-155" width="1080" height="1890" />
-    </state>
-    <state width="1058" height="562" key="GridCell.Tab.0.right/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603165669645" />
-    <state x="732" y="0" width="857" height="1167" maximized="true" key="dock-window-1" timestamp="1603165685463">
+    <state width="1058" height="562" key="GridCell.Tab.0.bottom" timestamp="1603180554593">
       <screen x="0" y="0" width="1858" height="1080" />
     </state>
-    <state x="732" y="0" width="857" height="1167" maximized="true" key="dock-window-1/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603165685463" />
+    <state width="1058" height="562" key="GridCell.Tab.0.bottom/0.0.1858.1080/1920.-155.1080.1890@0.0.1858.1080" timestamp="1603180554593" />
+    <state width="1058" height="562" key="GridCell.Tab.0.bottom/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603165669645" />
+    <state width="1058" height="562" key="GridCell.Tab.0.center" timestamp="1603180554593">
+      <screen x="0" y="0" width="1858" height="1080" />
+    </state>
+    <state width="1058" height="562" key="GridCell.Tab.0.center/0.0.1858.1080/1920.-155.1080.1890@0.0.1858.1080" timestamp="1603180554593" />
+    <state width="1058" height="562" key="GridCell.Tab.0.center/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603165669645" />
+    <state width="1058" height="562" key="GridCell.Tab.0.left" timestamp="1603180554593">
+      <screen x="0" y="0" width="1858" height="1080" />
+    </state>
+    <state width="1058" height="562" key="GridCell.Tab.0.left/0.0.1858.1080/1920.-155.1080.1890@0.0.1858.1080" timestamp="1603180554593" />
+    <state width="1058" height="562" key="GridCell.Tab.0.left/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603165669645" />
+    <state width="1058" height="562" key="GridCell.Tab.0.right" timestamp="1603180554593">
+      <screen x="0" y="0" width="1858" height="1080" />
+    </state>
+    <state width="1058" height="562" key="GridCell.Tab.0.right/0.0.1858.1080/1920.-155.1080.1890@0.0.1858.1080" timestamp="1603180554593" />
+    <state width="1058" height="562" key="GridCell.Tab.0.right/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603165669645" />
+    <state x="2051" y="522" key="Vcs.Push.Dialog.v2" timestamp="1603168256577">
+      <screen x="1920" y="-155" width="1080" height="1890" />
+    </state>
+    <state x="2051" y="522" key="Vcs.Push.Dialog.v2/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603168256577" />
+    <state x="609" y="0" width="897" height="1167" maximized="true" key="dock-window-1" timestamp="1603337243319">
+      <screen x="0" y="0" width="1858" height="1080" />
+    </state>
+    <state x="609" y="0" width="897" height="1167" maximized="true" key="dock-window-1/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603337243319" />
   </component>
 </project>

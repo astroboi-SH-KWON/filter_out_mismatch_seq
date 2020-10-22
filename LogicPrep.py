@@ -26,3 +26,6 @@ class LogicPreps:
         for tmp_arr in sorted(data_list, key=lambda tmp_arr: tmp_arr[ele_idx], reverse=up_down_flag):
             result_list.append(tmp_arr)
         return result_list
+
+    def make_2_arr_list_to_list_after_slice(self, idx_1, idx_2, pos_slice, arr_list):
+        return [tmp_arr[idx_1] + tmp_arr[idx_2][:pos_slice] for tmp_arr in arr_list]

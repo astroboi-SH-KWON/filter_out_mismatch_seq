@@ -17,6 +17,8 @@ class Logics:
         self.LEN_RAND_BP = init[9]
         self.LEN_RAND_WIN = init[10]
         self.LEN_TRGT = init[11]
+        self.TTG = init[12]
+        self.POS_SLICE_RAND_BP = init[13]
         self.D0_D4_FLAG = D0_D4_FLAG
 
         self.csv_list = excel_arr[0]
@@ -26,6 +28,7 @@ class Logics:
         self.trgt_list = excel_arr[4]
         self.d0_seq_wo_scaf_list = excel_arr[5]
         self.barcd_list = excel_arr[6]
+        self.randBP_list = excel_arr[7]
 
     """
     by using the BLOSUM62 matrix, together with a gap open penalty of 10 and a gap extension penalty of 0.5 (using globalds)
@@ -290,9 +293,8 @@ class Logics:
             return data_list, [no_TTTG_err_list, wrong_trgt_err_list, wrong_guide_err_list, no_matched_guide_err_list,
                                no_brcd_err_list, wrong_scaffold_err_list]
 
-    def multi_filter_out_mismatch_seq_by_scaffold_existence(self, fastq_list):
-        print("multi_filter_out_mismatch_seq_by_scaffold_existence >>>>>>>>>>>>>>>>>>>>>>")
-        logic_prep = LogicPrep.LogicPreps()
+    def multi_filter_out_mismatch_seq_by_scaffold_existence1(self, fastq_list):
+        print("multi_filter_out_mismatch_seq_by_scaffold_existence1 >>>>>>>>>>>>>>>>>>>>>>")
         data_list = []
         no_TTTG_err_list = []
         wrong_trgt_err_list = []
@@ -379,3 +381,97 @@ class Logics:
 
         return data_list, [no_TTTG_err_list, wrong_trgt_err_list, wrong_guide_err_list, no_matched_guide_err_list,
                                no_brcd_err_list, wrong_scaffold_err_list]
+
+    """
+        1. is_scaffold_present
+        2. is_barcode_present
+        3-1 is_guide_present
+        3-2 match_barcode_guide_pair
+        4. is_target_present
+    """
+    def multi_filter_out_mismatch_seq_by_scaffold_existence2(self, fastq_list):
+        print("multi_filter_out_mismatch_seq_by_scaffold_existence2 >>>>>>>>>>>>>>>>>>>>>>")
+        data_list = []
+        no_brcd_err_list = []
+        wrong_trgt_err_list = []
+        wrong_guide_err_list = []
+        no_matched_guide_err_list = []
+        for idx in range(len(fastq_list)):
+            ori_ngs_read = fastq_list[idx]
+
+            if self.is_seq_present(ori_ngs_read, self.SCAFFOLD_SEQ):
+                strt_scaf_idx, end_scaf_idx = self.get_strt_end_idx(ori_ngs_read, self.SCAFFOLD_SEQ)
+
+                guide_seq = self.get_target_seq(ori_ngs_read, strt_scaf_idx, self.LEN_GUIDE)
+
+                umi_TTTG_brcd_rand_seq = self.get_target_seq(ori_ngs_read, end_scaf_idx, self.LEN_UMI + len(
+                    self.TTTG) + self.LEN_BRCD + self.LEN_RAND_BP + self.LEN_RAND_WIN, False)
+
+                if self.is_seq_present(umi_TTTG_brcd_rand_seq, self.TTG):
+                    strt_TTG_idx, end_TTG_idx = self.get_strt_end_idx(umi_TTTG_brcd_rand_seq, self.TTG)
+
+                    umi_seq = umi_TTTG_brcd_rand_seq[:strt_TTG_idx]
+                    seq_sftr_TTG = umi_TTTG_brcd_rand_seq[end_TTG_idx:]
+                    brcd_rand_seq = seq_sftr_TTG[:self.LEN_BRCD + self.LEN_RAND_BP]
+                    # TODO 왜??????????????????????????????????????????????
+                    brcd_sliced_rand_seq = brcd_rand_seq[: self.LEN_BRCD + self.POS_SLICE_RAND_BP]
+
+                    umi_TTTG_brcd_rand_trgt_seq = self.get_target_seq(ori_ngs_read, end_scaf_idx, self.LEN_UMI + len(
+                        self.TTTG) + self.LEN_BRCD + self.LEN_RAND_BP + self.LEN_RAND_WIN + self.LEN_TRGT, False)
+                    brcd_rand_end_idx = umi_TTTG_brcd_rand_trgt_seq.find(
+                        brcd_rand_seq) + self.LEN_BRCD + self.LEN_RAND_BP
+                    trgt_seq = self.get_target_seq(umi_TTTG_brcd_rand_trgt_seq, brcd_rand_end_idx, self.LEN_TRGT, False)
+
+                    try:
+                        # check exist of barcode
+                        # brcd_rand_idx = self.barcd_randBP_list.index(brcd_rand_seq)
+                        brcd_rand_idx = self.barcd_randBP_list.index(brcd_sliced_rand_seq)
+
+                        # check guide
+                        if guide_seq == self.guide_list[brcd_rand_idx]:
+                            # Day 0 ==> check trgt_seq
+                            if self.D0_D4_FLAG:
+                                if trgt_seq == self.trgt_list[brcd_rand_idx]:
+                                    data_list.append(
+                                        ['', '', self.index_list[brcd_rand_idx], guide_seq, self.SCAFFOLD_SEQ, umi_seq,
+                                         self.TTG + brcd_rand_seq[:-self.LEN_RAND_BP], brcd_rand_seq[-self.LEN_RAND_BP:], trgt_seq,
+                                         ori_ngs_read])
+                                else:
+                                    wrong_trgt_err_list.append(
+                                        ["wrong_trgt", self.index_list[brcd_rand_idx], '', guide_seq, self.SCAFFOLD_SEQ,
+                                         umi_seq,
+                                         self.TTG + brcd_rand_seq[:-self.LEN_RAND_BP], brcd_rand_seq[-self.LEN_RAND_BP:], trgt_seq,
+                                         ori_ngs_read])
+
+                            # not Day 0
+                            else:
+                                data_list.append(
+                                    ['', '', self.index_list[brcd_rand_idx], guide_seq, self.SCAFFOLD_SEQ, umi_seq,
+                                     self.TTG + brcd_rand_seq[:-self.LEN_RAND_BP], brcd_rand_seq[-self.LEN_RAND_BP:],
+                                     trgt_seq, ori_ngs_read])
+                        else:
+                            try:
+                                guide_idx = self.guide_list.index(guide_seq)
+                                wrong_guide_err_list.append(
+                                    ["wrong_guide", self.index_list[brcd_rand_idx], self.index_list[guide_idx],
+                                     guide_seq,
+                                     self.SCAFFOLD_SEQ, umi_seq, self.TTG + brcd_rand_seq[:-self.LEN_RAND_BP],
+                                     brcd_rand_seq[-self.LEN_RAND_BP:], trgt_seq, ori_ngs_read])
+                            except Exception as err:
+                                no_matched_guide_err_list.append(
+                                    ["no_matched_guide", self.index_list[brcd_rand_idx], '', guide_seq, self.SCAFFOLD_SEQ,
+                                     umi_seq, self.TTG + brcd_rand_seq[:-self.LEN_RAND_BP], brcd_rand_seq[-self.LEN_RAND_BP:],
+                                     trgt_seq,
+                                     ori_ngs_read])
+
+                    except Exception as err:
+                        no_brcd_err_list.append(["no_brcd", 'no_brcd', '', guide_seq, self.SCAFFOLD_SEQ, umi_seq,
+                                                 self.TTG + brcd_rand_seq[:-self.LEN_RAND_BP],
+                                                 brcd_rand_seq[-self.LEN_RAND_BP:], trgt_seq, ori_ngs_read])
+
+        return data_list, [no_brcd_err_list, wrong_trgt_err_list, wrong_guide_err_list, no_matched_guide_err_list]
+
+    def is_seq_present(self, full_seq, trgt_seq):
+        if trgt_seq in full_seq:
+            return True
+        return False
