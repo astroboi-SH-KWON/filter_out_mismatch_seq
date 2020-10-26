@@ -37,13 +37,14 @@ REAR_SCAF_WIN = 10
 LEN_GUIDE = 19
 LEN_UMI = 8
 TTTG = "TTTG"
-TTG = "TTG"
+TTG = "TTTG"
 LEN_BRCD = 15
 # LEN_RAND_BP = 3
 LEN_RAND_BP = 9
-POS_SLICE_RAND_BP = 5
+POS_SLICE_RAND_BP = 3
 LEN_RAND_WIN = 3
-LEN_TRGT = 24
+LEN_PAM = 6
+LEN_TRGT = 24 + LEN_PAM
 
 INIT = [SCAFFOLD_SEQ, FRONT_SCAF, FRONT_SCAF_WIN, FRONT_SCAF_POS, REAR_SCAF_WIN, LEN_GUIDE, LEN_UMI, TTTG, LEN_BRCD, LEN_RAND_BP, LEN_RAND_WIN, LEN_TRGT, TTG, POS_SLICE_RAND_BP]
 
@@ -85,8 +86,8 @@ def multi_processing():
             print("will use : " + str(MULTI_CNT))
             pool = mp.Pool(processes=MULTI_CNT)
 
-            # pool_list = pool.map(logic.multi_filter_out_mismatch_seq_with_brcd_rand_seq, splited_fastq_list)
-            pool_list = pool.map(logic.multi_filter_out_mismatch_seq_by_scaffold_existence1, splited_fastq_list)
+            # pool_list = pool.map(logic.filter_out_mismatch_seq_with_brcd_rand_seq, splited_fastq_list)
+            pool_list = pool.map(logic.filter_out_mismatch_seq_by_scaffold_existence1, splited_fastq_list)
 
             data_list, err_list = util.merge_multi_err_list(pool_list)
             pool.close()
@@ -101,11 +102,11 @@ def multi_processing():
 
                 try:
                     util.make_excel(
-                        WORK_DIR + "output/" + str(fn_nm) + "_" + err_arr[0][0] + "_err_" + FASTQ_N[d0_d4_idx], head,
+                        WORK_DIR + "output/" + str(fn_nm) + "_err_" + err_arr[0][0] + "_" + FASTQ_N[d0_d4_idx], head,
                         err_arr)
                 except Exception as err:
                     util.make_tsv(
-                        WORK_DIR + "output/" + str(fn_nm) + "_" + err_arr[0][0] + "_err_" + FASTQ_N[d0_d4_idx], head,
+                        WORK_DIR + "output/" + str(fn_nm) + "_err_" + err_arr[0][0] + "_" + FASTQ_N[d0_d4_idx], head,
                         err_arr)
 
 def multi_processing_plan_B():
@@ -123,8 +124,8 @@ def multi_processing_plan_B():
     excel_arr.append(logic_prep.make_1_arr_list_to_list(2, csv_list))
     # barcd_randBP_list
     excel_arr.append(logic_prep.make_2_arr_list_to_list_after_slice(6, 7, POS_SLICE_RAND_BP, csv_list))
-    # trgt_list
-    excel_arr.append(logic_prep.make_1_arr_list_to_list(8, csv_list))
+    # trgt_list : 20201026 trgt + PAM
+    excel_arr.append(logic_prep.make_2_arr_list_to_list(8, 9, csv_list))
     # d0_seq_wo_scaf_list
     excel_arr.append(logic_prep.make_3_arr_list_to_list(3, 4, 5, csv_list))
     # barcd_list
@@ -144,14 +145,15 @@ def multi_processing_plan_B():
             print("will use : " + str(MULTI_CNT))
             pool = mp.Pool(processes=MULTI_CNT)
 
-            pool_list = pool.map(logic.multi_filter_out_mismatch_seq_by_scaffold_existence2, splited_fastq_list)
+            # pool_list = pool.map(logic.filter_out_mismatch_seq_by_scaffold_existence2, splited_fastq_list)
+            pool_list = pool.map(logic.filter_out_mismatch_seq_by_full_brcd_seq, splited_fastq_list)
 
             data_list, err_list = util.merge_multi_err_list(pool_list)
             pool.close()
 
             head = ['error_code', 'expected_index', 'index_from_NGS', 'guide_NGS', 'scaf_NGS',
-                    'umi_with_extra_T_or_not', TTG + '_barcode', 'rand_' + str(LEN_RAND_BP) + '_bp', 'target_NGS',
-                    'full_NGS']
+                    'umi_with_extra_T_or_not', TTG + '_barcode', 'rand_' + str(LEN_RAND_BP) + '_bp',
+                    'target_NGS + PAM(' + str(LEN_PAM) + ')', 'full_NGS']
             util.make_excel(WORK_DIR + "output/" + str(fn_nm) + "_result_" + FASTQ_N[d0_d4_idx], head, data_list, 2)
 
             for err_arr in err_list:
@@ -160,11 +162,11 @@ def multi_processing_plan_B():
 
                 try:
                     util.make_excel(
-                        WORK_DIR + "output/" + str(fn_nm) + "_" + err_arr[0][0] + "_err_" + FASTQ_N[d0_d4_idx], head,
+                        WORK_DIR + "output/" + str(fn_nm) + "_err_" + err_arr[0][0] + "_" + FASTQ_N[d0_d4_idx], head,
                         err_arr)
                 except Exception as err:
                     util.make_tsv(
-                        WORK_DIR + "output/" + str(fn_nm) + "_" + err_arr[0][0] + "_err_" + FASTQ_N[d0_d4_idx], head,
+                        WORK_DIR + "output/" + str(fn_nm) + "_err_" + err_arr[0][0] + "_" + FASTQ_N[d0_d4_idx], head,
                         err_arr)
 
 

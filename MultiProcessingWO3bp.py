@@ -66,7 +66,7 @@ def multi_processing_wo_randbp_in_brcd():
             print("will use : " + str(MULTI_CNT))
             pool = mp.Pool(processes=MULTI_CNT)
 
-            pool_list = pool.map(logic.multi_filter_out_mismatch_seq_with_brcd_rand_seq, splited_fastq_list)
+            pool_list = pool.map(logic.filter_out_mismatch_seq_with_brcd_rand_seq, splited_fastq_list)
 
             data_list, err_list = util.merge_multi_list(pool_list)
             pool.close()
