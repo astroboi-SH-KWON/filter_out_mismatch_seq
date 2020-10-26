@@ -54,22 +54,8 @@ def make_filtered_FASTQ():
                             result_f.write(fastq_id + fastq_seq + fastq_flag + fastq_qual)
 
 
-def test():
-    fastq_path = "D:/000_WORK/test.fastq"
-    with open(fastq_path, 'r') as fastq_f:
-        while True:
-            tmp_fastq = fastq_f.read(4)
-            if tmp_fastq == '':
-                break
-            print(tmp_fastq)
-
-
-
-
-
 if __name__ == '__main__':
     start_time = time.perf_counter()
     print("start [ " + PROJECT_NAME + " ]>>>>>>>>>>>>>>>>>>")
     make_filtered_FASTQ()
-    # test()
     print("::::::::::: %.2f seconds ::::::::::::::" % (time.perf_counter() - start_time))

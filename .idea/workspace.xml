@@ -19,12 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2204112b-aab7-4faf-8329-c34435cd452c" name="Default Changelist" comment="multi_processing_plan_B">
+    <list default="true" id="2204112b-aab7-4faf-8329-c34435cd452c" name="Default Changelist" comment="MakeFilteredFASTQ.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Logic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiProcessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/MultiProcessing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiProcessingWO3bp.py" beforeDir="false" afterPath="$PROJECT_DIR$/MultiProcessingWO3bp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MakeFilteredFASTQ.py" beforeDir="false" afterPath="$PROJECT_DIR$/MakeFilteredFASTQ.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603348478033</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="MakeFilteredFASTQ.py">
+      <created>1603677707813</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1603677707813</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,40 +167,41 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="rand N bp" />
     <MESSAGE value="multi_processing_plan_B" />
-    <option name="LAST_COMMIT_MESSAGE" value="multi_processing_plan_B" />
+    <MESSAGE value="MakeFilteredFASTQ.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="MakeFilteredFASTQ.py" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1058" height="562" key="GridCell.Tab.0.bottom" timestamp="1603676551861">
+    <state width="1058" height="562" key="GridCell.Tab.0.bottom" timestamp="1603677803376">
       <screen x="1920" y="-155" width="1080" height="1890" />
     </state>
     <state width="1058" height="562" key="GridCell.Tab.0.bottom/0.0.1858.1080/1920.-155.1080.1890@0.0.1858.1080" timestamp="1603180554593" />
-    <state width="1058" height="562" key="GridCell.Tab.0.bottom/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603676551861" />
-    <state width="1058" height="562" key="GridCell.Tab.0.center" timestamp="1603676551861">
+    <state width="1058" height="562" key="GridCell.Tab.0.bottom/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603677803376" />
+    <state width="1058" height="562" key="GridCell.Tab.0.center" timestamp="1603677803376">
       <screen x="1920" y="-155" width="1080" height="1890" />
     </state>
     <state width="1058" height="562" key="GridCell.Tab.0.center/0.0.1858.1080/1920.-155.1080.1890@0.0.1858.1080" timestamp="1603180554593" />
-    <state width="1058" height="562" key="GridCell.Tab.0.center/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603676551861" />
-    <state width="1058" height="562" key="GridCell.Tab.0.left" timestamp="1603676551861">
+    <state width="1058" height="562" key="GridCell.Tab.0.center/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603677803376" />
+    <state width="1058" height="562" key="GridCell.Tab.0.left" timestamp="1603677803376">
       <screen x="1920" y="-155" width="1080" height="1890" />
     </state>
     <state width="1058" height="562" key="GridCell.Tab.0.left/0.0.1858.1080/1920.-155.1080.1890@0.0.1858.1080" timestamp="1603180554593" />
-    <state width="1058" height="562" key="GridCell.Tab.0.left/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603676551861" />
-    <state width="1058" height="562" key="GridCell.Tab.0.right" timestamp="1603676551861">
+    <state width="1058" height="562" key="GridCell.Tab.0.left/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603677803376" />
+    <state width="1058" height="562" key="GridCell.Tab.0.right" timestamp="1603677803376">
       <screen x="1920" y="-155" width="1080" height="1890" />
     </state>
     <state width="1058" height="562" key="GridCell.Tab.0.right/0.0.1858.1080/1920.-155.1080.1890@0.0.1858.1080" timestamp="1603180554593" />
-    <state width="1058" height="562" key="GridCell.Tab.0.right/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603676551861" />
-    <state x="2051" y="522" key="Vcs.Push.Dialog.v2" timestamp="1603348486516">
+    <state width="1058" height="562" key="GridCell.Tab.0.right/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603677803376" />
+    <state x="2051" y="522" key="Vcs.Push.Dialog.v2" timestamp="1603677716029">
       <screen x="1920" y="-155" width="1080" height="1890" />
     </state>
-    <state x="2051" y="522" key="Vcs.Push.Dialog.v2/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603348486516" />
-    <state x="921" y="-8" width="945" height="1096" maximized="true" key="dock-window-1" timestamp="1603673855135">
+    <state x="2051" y="522" key="Vcs.Push.Dialog.v2/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603677716029" />
+    <state x="727" y="0" width="898" height="1167" maximized="true" key="dock-window-1" timestamp="1603678761123">
       <screen x="0" y="0" width="1858" height="1080" />
     </state>
-    <state x="921" y="-8" width="945" height="1096" maximized="true" key="dock-window-1/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603673855135" />
-    <state x="922" y="0" width="943" height="1087" key="dock-window-2" timestamp="1603676559874">
+    <state x="727" y="0" width="898" height="1167" maximized="true" key="dock-window-1/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603678761123" />
+    <state x="649" y="0" width="898" height="1167" maximized="true" key="dock-window-2" timestamp="1603678761123">
       <screen x="0" y="0" width="1858" height="1080" />
     </state>
-    <state x="922" y="0" width="943" height="1087" key="dock-window-2/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603676559874" />
+    <state x="649" y="0" width="898" height="1167" maximized="true" key="dock-window-2/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603678761123" />
   </component>
 </project>
