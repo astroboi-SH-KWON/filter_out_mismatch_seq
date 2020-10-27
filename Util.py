@@ -88,3 +88,24 @@ class Utils:
             for err_idx in range(len(tuple_val[1])):
                 err_list[err_idx].extend(tuple_val[1][err_idx])
         return data_list, err_list
+
+    def split_big_file_by_row(self, init):
+        big_file_path = init['big_file_path']
+        num_row = init['num_row']
+        splited_files_dir = init['splited_files_dir']
+        output_file_nm = init['output_file_nm']
+        output_file_ext = init['output_file_ext']
+
+        os.makedirs(splited_files_dir, exist_ok=True)
+
+        with open(big_file_path) as fin:
+            fout = open('{}{}_{}{}'.format(splited_files_dir, output_file_nm, '0', output_file_ext), "w")
+            for i, line in enumerate(fin):
+                fout.write(line)
+                if (i + 1) % num_row == 0:
+                    fout.close()
+                    fout = open('{}{}_{}{}'.format(splited_files_dir, output_file_nm, str(i // num_row + 1), output_file_ext), "w")
+
+            fout.close()
+
+
