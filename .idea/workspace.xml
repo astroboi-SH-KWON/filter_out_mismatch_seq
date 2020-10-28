@@ -19,10 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2204112b-aab7-4faf-8329-c34435cd452c" name="Default Changelist" comment="MakeFilteredFASTQ.py">
+    <list default="true" id="2204112b-aab7-4faf-8329-c34435cd452c" name="Default Changelist" comment="split_file_for_plan_B()multi_processing_plan_B()">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MakeFilteredFASTQ.py" beforeDir="false" afterPath="$PROJECT_DIR$/MakeFilteredFASTQ.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiProcessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/MultiProcessing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Util.py" beforeDir="false" afterPath="$PROJECT_DIR$/Util.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -158,7 +157,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603693296641</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="split_file_for_plan_B()multi_processing_plan_B()">
+      <created>1603777673331</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1603777673331</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -177,7 +183,8 @@
     <MESSAGE value="rand N bp" />
     <MESSAGE value="multi_processing_plan_B" />
     <MESSAGE value="MakeFilteredFASTQ.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="MakeFilteredFASTQ.py" />
+    <MESSAGE value="split_file_for_plan_B()multi_processing_plan_B()" />
+    <option name="LAST_COMMIT_MESSAGE" value="split_file_for_plan_B()multi_processing_plan_B()" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1058" height="562" key="GridCell.Tab.0.bottom" timestamp="1603677803376">
@@ -204,10 +211,10 @@
       <screen x="1920" y="-155" width="1080" height="1890" />
     </state>
     <state x="2039" y="532" key="IDE.errors.dialog/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603752733637" />
-    <state x="2051" y="522" key="Vcs.Push.Dialog.v2" timestamp="1603693306373">
+    <state x="2051" y="522" key="Vcs.Push.Dialog.v2" timestamp="1603777682932">
       <screen x="1920" y="-155" width="1080" height="1890" />
     </state>
-    <state x="2051" y="522" key="Vcs.Push.Dialog.v2/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603693306373" />
+    <state x="2051" y="522" key="Vcs.Push.Dialog.v2/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603777682932" />
     <state x="727" y="0" width="898" height="1167" maximized="true" key="dock-window-1" timestamp="1603678761123">
       <screen x="0" y="0" width="1858" height="1080" />
     </state>
@@ -236,9 +243,9 @@
       <screen x="0" y="0" width="1858" height="1080" />
     </state>
     <state x="539" y="0" width="888" height="1167" key="dock-window-7/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603775013182" />
-    <state x="289" y="0" width="888" height="1167" maximized="true" key="dock-window-8" timestamp="1603776101007">
+    <state x="289" y="0" width="888" height="1167" key="dock-window-8" timestamp="1603846301830">
       <screen x="0" y="0" width="1858" height="1080" />
     </state>
-    <state x="289" y="0" width="888" height="1167" maximized="true" key="dock-window-8/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603776101007" />
+    <state x="289" y="0" width="888" height="1167" key="dock-window-8/0.0.1858.1080/1920.-155.1080.1890@1920.-155.1080.1890" timestamp="1603846301830" />
   </component>
 </project>

@@ -99,12 +99,12 @@ class Utils:
         os.makedirs(splited_files_dir, exist_ok=True)
 
         with open(big_file_path) as fin:
-            fout = open('{}{}_{}{}'.format(splited_files_dir, output_file_nm, '0', output_file_ext), "w")
+            fout = open('{}/{}_{}{}'.format(splited_files_dir, output_file_nm, '0', output_file_ext), "w")
             for i, line in enumerate(fin):
                 fout.write(line)
                 if (i + 1) % num_row == 0:
                     fout.close()
-                    fout = open('{}{}_{}{}'.format(splited_files_dir, output_file_nm, str(i // num_row + 1), output_file_ext), "w")
+                    fout = open('{}/{}_{}{}'.format(splited_files_dir, output_file_nm, str(i // num_row + 1), output_file_ext), "w")
 
             fout.close()
 
