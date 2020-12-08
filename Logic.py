@@ -482,6 +482,7 @@ class Logics:
         wrong_trgt_err_list = []
         wrong_guide_err_list = []
         no_matched_guide_err_list = []
+        no_scaf_err_list = []
         for idx in range(len(fastq_list)):
             ori_ngs_read = fastq_list[idx]
 
@@ -555,8 +556,11 @@ class Logics:
 
                 else:
                     no_brcd_err_list.append(["no_brcd", 'no_brcd', '', guide_seq, self.SCAFFOLD_SEQ, '', '', '', '', ori_ngs_read])
+            else:
+                no_scaf_err_list.append(
+                    ["no_scaf", 'no_scaf', '', '', '-', '', '', '', '', ori_ngs_read])
 
-        return data_list, [no_brcd_err_list, wrong_trgt_err_list, wrong_guide_err_list,no_matched_guide_err_list]
+        return data_list, [no_brcd_err_list, wrong_trgt_err_list, wrong_guide_err_list, no_matched_guide_err_list, no_scaf_err_list]
 
     def get_trgt_seq_in_list(self, input_seq, prefix_seq, seq_list):
         for tmp_seq in seq_list:

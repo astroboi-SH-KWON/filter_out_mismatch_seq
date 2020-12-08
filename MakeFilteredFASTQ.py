@@ -43,9 +43,11 @@ NON_D0_LIST = ['NRCH_previous'
                 , 'xCas9_Rep1'
                 , 'xCas9_Rep2'
                ]
-D0_D4_FLAG_ARR = [True, False]  # Day 0 : True, non Day 0 : False
+# D0_D4_FLAG_ARR = [True, False]  # Day 0 : True, non Day 0 : False
+D0_D4_FLAG_ARR = [False]  # Day 0 : True, non Day 0 : False 20201028 request to run D0 as non_D0
 FASTQ_ARR = [D0_LIST, NON_D0_LIST]
-FASTQ_N = ['LibA_D0', 'LibA_non_D0']
+# FASTQ_N = ['LibA_D0', 'LibA_non_D0']
+FASTQ_N = ['LibA_D0_without_filtering_trgt', 'LibA_non_D0']
 FASTQ_EXT = ".extendedFrags.fastq"
 
 ############### end setting env #################
@@ -59,7 +61,7 @@ def make_filtered_FASTQ():
 
             splited_fastq_arr = util.get_files_from_dir(splited_fastq_dir + '*' + FASTQ_EXT)
 
-            merged_fastq = FASTQ + "merged_" + str(fn_nm) + FASTQ_EXT
+            merged_fastq = FASTQ + "20201029_" + str(fn_nm) + FASTQ_EXT
             try:
                 os.remove(merged_fastq)
             except Exception as err:

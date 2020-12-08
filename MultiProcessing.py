@@ -42,9 +42,11 @@ NON_D0_LIST = ['NRCH_previous'
                 , 'xCas9_Rep1'
                 , 'xCas9_Rep2'
                ]
-D0_D4_FLAG_ARR = [True, False]  # Day 0 : True, non Day 0 : False
+# D0_D4_FLAG_ARR = [True, False]  # Day 0 : True, non Day 0 : False
+D0_D4_FLAG_ARR = [False]  # Day 0 : True, non Day 0 : False 20201028 request to run D0 as non_D0
 FASTQ_ARR = [D0_LIST, NON_D0_LIST]
-FASTQ_N = ['LibA_D0', 'LibA_non_D0']
+# FASTQ_N = ['LibA_D0', 'LibA_non_D0']
+FASTQ_N = ['LibA_D0_without_filtering_trgt', 'LibA_non_D0']
 FASTQ_EXT = ".extendedFrags.fastq"
 
 SCAFFOLD_SEQ = "GTTTCAGAGCTATGCTGGAAACAGCATAGCAAGTTGAAATAAGGCTAGTCCGTTATCAACTTGAAAAAGTGGCACCGAGTCGGTGCTTTTTT"
@@ -70,6 +72,7 @@ INIT = [SCAFFOLD_SEQ, FRONT_SCAF, FRONT_SCAF_WIN, FRONT_SCAF_POS, REAR_SCAF_WIN,
 TOTAL_CPU = mp.cpu_count()
 MULTI_CNT = int(TOTAL_CPU*0.8)
 ############### end setting env #################
+
 
 def multi_processing():
     util = Util.Utils()
@@ -128,6 +131,7 @@ def multi_processing():
                     util.make_tsv(
                         WORK_DIR + "output/" + str(fn_nm) + "_err_" + err_arr[0][0] + "_" + FASTQ_N[d0_d4_idx], head,
                         err_arr)
+
 
 def multi_processing_plan_B():
     util = Util.Utils()
